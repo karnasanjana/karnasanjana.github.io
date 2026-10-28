@@ -67,8 +67,8 @@ h1 { font-family: var(--display); font-size: clamp(38px, 4.6vw, 54px); line-heig
 .toc a:hover, .toc a.active { color: var(--text); }
 .toc a:hover .line, .toc a.active .line { width: 64px; background: var(--text); }
 
-.socials { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-.socials svg { width: 24px; height: 24px; display: block; }
+.socials { list-style: none; padding: 0; margin: 0; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.socials svg { width: 20px; height: 20px; display: block; flex: none; }
 .socials a { color: var(--muted); transition: color .15s, transform .15s; display: block; }
 .socials a:hover { color: var(--mint); transform: translateY(-2px); }
 .socials .email { font-size: 12.5px; }
