@@ -1,12 +1,12 @@
 # karnasanjana.github.io
 
-Personal portfolio of Sanjana Reddy Karna: hand-written HTML, CSS and a little JavaScript, no framework.
+Portfolio of Sanjana Reddy Karna: AI & data engineer. Hand-written HTML, CSS and JavaScript, with no framework and no build step.
 
-Live at **https://karnasanjana.github.io**
+**Live:** https://karnasanjana.github.io
 
-- Animated "Data → Model → Eval → Ship" pipeline hero
-- Count-up results strip and scroll reveals (respects `prefers-reduced-motion`)
-- Project spec cards (Problem / Built / Result) with real screenshots and an animated results chart
-- Responsive down to 360px, no build step
+- Two-column layout: sticky intro with active-section navigation, plus scrolling experience and projects
+- Cursor spotlight, hover focus on cards, count-up highlights, animated results chart
+- Accessible: skip link, focus styles, `prefers-reduced-motion` respected
+- Responsive down to 360px; lightweight, with lazy-loaded screenshots
 
-Run locally: `python -m http.server` and open http://localhost:8000
+Run locally: `python -m http.server`, then open http://localhost:8000
