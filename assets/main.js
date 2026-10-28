@@ -30,7 +30,7 @@
     requestAnimationFrame(tick);
   };
 
-  const revealTargets = document.querySelectorAll(".project, .card, .skills > div, .receipts > div, .contact");
+  const revealTargets = document.querySelectorAll(".project, .card, .skills > div, .receipts > div, .timeline li, .edu > div, .contact");
   if (!("IntersectionObserver" in window) || reduced) {
     document.querySelectorAll(".bars").forEach((b) => b.classList.add("go"));
     return;
