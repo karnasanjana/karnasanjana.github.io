@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanjana Reddy Karna · AI, Data & Software Engineer</title>
+  <meta name="description" content="Sanjana Reddy Karna: MS CS at Texas Tech. I build LLM agents, data pipelines and backend systems, and I evaluate them honestly.">
+  <meta property="og:title" content="Sanjana Reddy Karna · AI, Data & Software Engineer">
+  <meta property="og:description" content="LLM agents, data pipelines and ML systems, with honest evaluation.">
+  <meta property="og:image" content="https://karnasanjana.github.io/assets/img/demoflow.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b0d12'/><text x='16' y='22' font-family='monospace' font-size='16' font-weight='700' text-anchor='middle' fill='%237cf7c4'>SK</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#work">Skip to projects</a>
+
+  <header class="nav">
+    <a class="logo" href="#top" aria-label="Home"><span>sk</span><i></i></a>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#more">More</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ======================================================== HERO -->
+    <section class="hero">
+      <p class="eyebrow mono">MS CS @ Texas Tech · open to ML / AI, Data &amp; Software roles</p>
+      <h1>I build AI systems<br>that <span class="hl">actually ship</span>.</h1>
+      <p class="lede">Hi, I'm <b>Sanjana Reddy Karna</b>. I build LLM agents, data pipelines and the backends around them,
+        and I don't trust a 99% until I've checked it for leakage.</p>
+
+      <div class="pipeline" aria-label="My workflow: data, model, evaluation, ship">
+        <div class="stage"><span class="dot"></span><b>Data</b><small>clean · dedupe · split</small></div>
+        <div class="wire"><i></i></div>
+        <div class="stage"><span class="dot"></span><b>Model</b><small>LLMs · CNNs · CV</small></div>
+        <div class="wire"><i></i></div>
+        <div class="stage"><span class="dot"></span><b>Eval</b><small>held-out · leakage checks</small></div>
+        <div class="wire"><i></i></div>
+        <div class="stage"><span class="dot"></span><b>Ship</b><small>APIs · apps · tests</small></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#work">See my work ↓</a>
+        <a class="btn" href="https://github.com/karnasanjana" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </section>
+
+    <!-- ======================================================== RECEIPTS -->
+    <section class="receipts" aria-label="Results">
+      <div><b data-count="180">180</b><span>tests in my LLM pipeline agent</span></div>
+      <div><b data-count="8.8" data-prefix="+" data-decimals="1">+8.8</b><span>pts out-of-domain accuracy, reproducing a NeurIPS paper</span></div>
+      <div><b data-count="6" data-suffix="×">6×</b><span>faster research training loop</span></div>
+      <div><b data-count="99.3" data-suffix="%" data-decimals="1">99.3%</b><span>fake-news accuracy, after removing data leakage</span></div>
+    </section>
+
+    <!-- ======================================================== FEATURED -->
+    <section id="work" class="section">
+      <h2 class="section-title"><span class="mono">01</span> Selected work</h2>
+
+      <article class="project">
+        <div class="shot"><img src="assets/img/demoflow.png" alt="DemoFlow: writing click instructions in plain English" loading="lazy"></div>
+        <div class="info">
+          <p class="kicker mono">AI agent · browser automation · video</p>
+          <h3>DemoFlow</h3>
+          <dl class="spec">
+            <dt>Problem</dt><dd>Product demo videos take hours to record, edit and narrate by hand.</dd>
+            <dt>Built</dt><dd>An agent that turns plain-English steps into a real recorded browser session. Gemini Vision
+              splits it into steps and writes the narration, and FFmpeg adds highlights, zooms and a voiceover.</dd>
+            <dt>Result</dt><dd>URL in, narrated MP4 out. Every AI step has a fallback, so it still works with no API key.</dd>
+          </dl>
+          <ul class="tags"><li>Python</li><li>FastAPI</li><li>Playwright</li><li>Gemini</li><li>FFmpeg</li><li>SSE</li></ul>
+          <a class="link" href="https://github.com/karnasanjana/DemoFlow" target="_blank" rel="noopener">View code ↗</a>
+        </div>
+      </article>
+
+      <article class="project flip">
+        <div class="shot stack">
+          <img src="assets/img/brd-plan.png" alt="Generated Azure Data Factory plan with approval gate" loading="lazy">
+          <img src="assets/img/brd-run.png" alt="Mock run with Bronze, Silver and Gold succeeded" loading="lazy">
+        </div>
+        <div class="info">
+          <p class="kicker mono">LLM agent · data engineering · Azure</p>
+          <h3>BRD → ADF Agent</h3>
+          <dl class="spec">
+            <dt>Problem</dt><dd>Turning a requirements document into Azure Data Factory pipelines takes engineers days.</dd>
+            <dt>Built</dt><dd>An agent that builds the Bronze → Silver → Gold medallion pipeline. The LLM only fills a typed plan;
+              deterministic code compiles the Azure JSON, so the output is valid by construction.</dd>
+            <dt>Result</dt><dd>Pre-flight checks, a human approval gate, then a real deploy with live run status. 180 tests run offline.</dd>
+          </dl>
+          <ul class="tags"><li>Pydantic AI</li><li>Azure Data Factory</li><li>FastAPI</li><li>ETL</li><li>pytest</li></ul>
+          <a class="link" href="https://github.com/karnasanjana/brd-to-adf-agent" target="_blank" rel="noopener">View code ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="shot chart-card">
+          <p class="mono chart-title">Out-of-domain accuracy · 10 chest X-ray datasets</p>
+          <div class="bars" role="img" aria-label="Bar chart: KnoBo 65.4, KnoBo without prior 60.0, PCBM 56.6, linear probe 56.6">
+            <div class="bar win" style="--v:65.4"><span>KnoBo + prior</span><b>65.4</b></div>
+            <div class="bar" style="--v:60.0"><span>KnoBo, no prior</span><b>60.0</b></div>
+            <div class="bar" style="--v:56.6"><span>PCBM</span><b>56.6</b></div>
+            <div class="bar" style="--v:56.6"><span>Linear probe</span><b>56.6</b></div>
+          </div>
+          <p class="mono chart-note">Domain gap 27.4 → 14.2 · training ~25 min → ~4.5 min</p>
+        </div>
+        <div class="info">
+          <p class="kicker mono">Research · PyTorch · medical imaging</p>
+          <h3>KnoBo reproduction</h3>
+          <dl class="spec">
+            <dt>Problem</dt><dd>Medical image models break when they meet a new hospital's data.</dd>
+            <dt>Built</dt><dd>Reproduced a NeurIPS 2024 concept-bottleneck method, then fixed a bug that silently corrupted ablations,
+              made training ~6× faster, and replaced test-set model selection with a proper held-out split.</dd>
+            <dt>Result</dt><dd>Confirmed +8.8 pts out-of-domain over baselines, and showed the original protocol overstated accuracy by ~1.8 pts.</dd>
+          </dl>
+          <ul class="tags"><li>PyTorch</li><li>CLIP</li><li>Interpretability</li><li>Experiment design</li></ul>
+          <a class="link" href="https://github.com/karnasanjana/KnoBO" target="_blank" rel="noopener">View code ↗</a>
+        </div>
+      </article>
+
+      <article class="project flip">
+        <div class="shot"><img src="assets/img/fakenews.png" alt="Fake news detector app predicting Fake" loading="lazy"></div>
+        <div class="info">
+          <p class="kicker mono">NLP · deep learning · evaluation</p>
+          <h3>Fake News Detector</h3>
+          <dl class="spec">
+            <dt>Problem</dt><dd>A 99% score looked too good: 99.8% of real articles in the data mention "Reuters".</dd>
+            <dt>Built</dt><dd>Stripped every source giveaway, compared against TF-IDF baselines, and trained a 1D-CNN with the
+              tokenizer saved inside the model.</dd>
+            <dt>Result</dt><dd>99.3% on 5,864 held-out articles, now a number that survives scrutiny. Served with Streamlit.</dd>
+          </dl>
+          <ul class="tags"><li>TensorFlow</li><li>1D-CNN</li><li>Streamlit</li><li>Data leakage</li></ul>
+          <a class="link" href="https://github.com/karnasanjana/Fake_news" target="_blank" rel="noopener">View code ↗</a>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="shot"><img src="assets/img/disease.png" alt="Disease and Drug Recommendation System home page" loading="lazy"></div>
+        <div class="info">
+          <p class="kicker mono">BE final-year project · NLP · Flask</p>
+          <h3>Disease &amp; Drug Recommendation</h3>
+          <dl class="spec">
+            <dt>Problem</dt><dd>4,920 rows but only 304 unique: random splits produced a fake 100%.</dd>
+            <dt>Built</dt><dd>A symptom chatbot (typed or spoken) with a TF-IDF + CNN model. It deduplicates before splitting and
+              shows confidence and top-3 candidates.</dd>
+            <dt>Result</dt><dd>98.4% held-out accuracy over 41 diseases, hashed passwords, and startup from 75 s down to 7 s.</dd>
+          </dl>
+          <ul class="tags"><li>Flask</li><li>TensorFlow</li><li>NLTK</li><li>SQLite</li></ul>
+          <a class="link" href="https://github.com/karnasanjana/disease-drug-recommendation" target="_blank" rel="noopener">View code ↗</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- ======================================================== MORE -->
+    <section id="more" class="section">
+      <h2 class="section-title"><span class="mono">02</span> More projects</h2>
+      <div class="grid">
+        <a class="card" href="https://github.com/hrhopp/CS5342-Network-Security-Project-GR_5" target="_blank" rel="noopener">
+          <pre class="term" aria-hidden="true"><span>$</span> ingest  pdf → sha256 → chunk(1000/150)
+<span>$</span> embed   nomic-embed-text → chroma
+<span>$</span> ask     top-4 → gate → llama3.2:3b
+<em>→ answer + (Lecture n, slide m)</em></pre>
+          <p class="kicker mono">Team · RAG · local LLM</p>
+          <h3>Network Security AI Tutor</h3>
+          <p>A private tutor that answers only from course material, with citations. I built the RAG core: ingestion,
+            retrieval, prompt-injection defences and local-only checks.</p>
+          <span class="link">View repo ↗</span>
+        </a>
+        <a class="card has-img" href="https://karnasanjana.github.io/Resume-Builder/" target="_blank" rel="noopener">
+          <img src="assets/img/resume.png" alt="" loading="lazy">
+          <p class="kicker mono">Frontend · live demo</p>
+          <h3>Resume Builder</h3>
+          <p>In-browser, ATS-friendly resume builder: live preview, autosave, JSON export, PDF. Zero dependencies.</p>
+          <span class="link">Try it live ↗</span>
+        </a>
+        <a class="card has-img" href="https://github.com/karnasanjana/Gun_detection" target="_blank" rel="noopener">
+          <img src="assets/img/weapon.png" alt="" loading="lazy">
+          <p class="kicker mono">Computer vision</p>
+          <h3>Weapon Detection</h3>
+          <p>YOLOv3 on OpenCV DNN for images, videos and webcam, with hardened uploads that block path traversal.</p>
+          <span class="link">View code ↗</span>
+        </a>
+        <a class="card has-img" href="https://github.com/karnasanjana/Drawing_application" target="_blank" rel="noopener">
+          <img src="assets/img/sketchpad.png" alt="" loading="lazy">
+          <p class="kicker mono">Python · GUI</p>
+          <h3>Sketchpad</h3>
+          <p>Tkinter drawing app with undo/redo, smooth strokes and pixel-exact PNG export via an off-screen image.</p>
+          <span class="link">View code ↗</span>
+        </a>
+        <a class="card" href="https://github.com/karnasanjana/Desktop_assistant" target="_blank" rel="noopener">
+          <pre class="term" aria-hidden="true"><span>You:</span> tell me about alan turing
+<em>Nova:</em> Searching Wikipedia for alan turing
+<em>Nova:</em> Alan Mathison Turing (1912–1954)
+      was an English mathematician…</pre>
+          <p class="kicker mono">Python · speech</p>
+          <h3>Voice Assistant</h3>
+          <p>Speech-driven assistant with a command table, Wikipedia lookups, notes and a keyboard mode.</p>
+          <span class="link">View code ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ======================================================== SKILLS -->
+    <section id="skills" class="section">
+      <h2 class="section-title"><span class="mono">03</span> What I work with</h2>
+      <div class="skills">
+        <div><h3>AI / ML</h3><p>LLM agents · tool calling · structured outputs · RAG · TensorFlow · PyTorch · scikit-learn · CNNs · CLIP · YOLO</p></div>
+        <div><h3>Data</h3><p>Azure Data Factory · medallion architecture · ETL · SQL · pandas · ChromaDB · data quality &amp; leakage checks</p></div>
+        <div><h3>Software</h3><p>Python · FastAPI · Flask · JavaScript · REST · Server-Sent Events · Playwright · FFmpeg · pytest · Git</p></div>
+      </div>
+    </section>
+
+    <!-- ======================================================== CONTACT -->
+    <section id="contact" class="section contact">
+      <h2>Let's build something.</h2>
+      <p>I'm looking for ML / AI engineering, data engineering and software engineering roles.</p>
+      <div class="hero-actions center">
+        <a class="btn primary" href="https://github.com/karnasanjana" target="_blank" rel="noopener">GitHub ↗</a>
+        <!-- LINKEDIN: replace href with your profile URL -->
+        <a class="btn" id="linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mono">Built from scratch · HTML, CSS &amp; a little JS · © <span id="year">2026</span> Sanjana Reddy Karna</footer>
+  <script src="assets/main.js"></script>
+</body>
+</html>
