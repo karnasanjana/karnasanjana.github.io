@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=3">
+  <link rel="stylesheet" href="assets/styles.css?v=5">
 </head>
 <body>
   <div class="spotlight" aria-hidden="true"></div>
@@ -136,6 +136,19 @@
               <p>AI agent that drives a real browser from plain-English steps, records it, and has Gemini Vision split it into
                 steps and write narration. FFmpeg then adds highlights, zooms and a voiceover. URL in, narrated MP4 out.</p>
               <p class="metric mono">Selector → vision-click fallback ladder · every AI step has a fallback</p>
+              <details class="case">
+                <summary class="mono">Case study</summary>
+                <div class="case-body">
+                  <h5>How it works</h5>
+                  <ol class="steps"><li><b>Parse</b>: Gemini turns plain-English steps into browser actions (regex fallback)</li><li><b>Record</b>: Playwright drives Chromium and records video plus an action timeline</li><li><b>Analyze</b>: one multimodal Gemini call splits the recording into steps, narration and highlight boxes</li><li><b>Generate</b>: per step, FFmpeg applies zoom or highlight and merges a TTS voiceover (2–4 in parallel)</li><li><b>Assemble</b>: intro card, crossfades, logo and ducked music into the final MP4</li></ol>
+                  <h5>Key decisions</h5>
+                  <ul><li>Clicks try ARIA role → visible text → CSS selector, and only then a Gemini Vision click on a screenshot. One failed step is logged and skipped, because a partial recording beats none.</li><li>The real click coordinate is recorded, so highlights anchor to ground truth instead of the model's guessed box.</li><li>Every AI step has a deterministic fallback, so the product never hard-fails on a missing key or bad JSON.</li><li>Progress streams to the browser with Server-Sent Events; auth uses HMAC-signed httpOnly cookies from the standard library.</li></ul>
+                  <h5>Hardest problem</h5>
+                  <p>On Windows, Chromium crashed only under <code>uvicorn --reload</code>: that event loop can't spawn subprocesses. I moved the recorder onto a dedicated ProactorEventLoop in a worker thread and marshalled progress back to the main loop.</p>
+                  <h5>What I'd do next</h5>
+                  <p>Move recording and rendering to containerised job workers (Cloud Run Jobs), videos to object storage, and progress to Pub/Sub, and add unit tests for the parser and step grouping.</p>
+                </div>
+              </details>
               <ul class="tags"><li>Python</li><li>FastAPI</li><li>Playwright</li><li>Gemini</li><li>FFmpeg</li></ul>
             </div>
           </li>
@@ -147,6 +160,19 @@
                 fills a typed plan; a deterministic compiler emits the Azure JSON, so output is valid by construction. Pre-flight
                 checks and a human approval gate come before any deploy.</p>
               <p class="metric mono">180 tests · runs fully offline in mock mode</p>
+              <details class="case">
+                <summary class="mono">Case study</summary>
+                <div class="case-body">
+                  <h5>How it works</h5>
+                  <ol class="steps"><li>The LLM extracts a <b>LogicalPlan</b>: business intent only (entities, cleanings, joins, outputs)</li><li>A deterministic <b>compiler</b> assigns every ADF name, dataset, wiring and expression</li><li>A <b>builder</b> emits ADF JSON and Data Flow script</li><li><b>Pre-flight</b> checks schema, naming, cross-references, script lint and column types</li><li>A human <b>approves</b>; the agent deploys to Azure and streams Bronze/Silver/Gold status</li><li>On failure, a <b>self-heal</b> step sends the error back to the model once for a targeted fix</li></ol>
+                  <h5>Key decisions</h5>
+                  <ul><li>The plan has no free-text expression fields, only a closed vocabulary of operations, so invalid ADF syntax is unrepresentable.</li><li>Same plan in, same pipeline out: the compiler is deterministic, which makes everything after the LLM unit-testable.</li><li>A tool-calling mode builds the plan in ~10 small calls with instant validation feedback, instead of one giant JSON answer.</li><li>Requirements it can't build go in an explicit <i>unsupported</i> list: loud, never silently dropped. Managed Identity is used throughout, with no keys in code.</li></ul>
+                  <h5>Hardest problem</h5>
+                  <p>The offline smoke test failed: the type checker read aggregation columns only from the structured field, so the legacy form <code>sum(Confirmed)</code> looked like <code>sum('')</code>. I made it parse the column out of the expression when the field is empty.</p>
+                  <h5>What I'd do next</h5>
+                  <p>Persist runs in a database, add per-user auth, and report extraction accuracy from the evaluation harness across the golden and held-out BRD sets.</p>
+                </div>
+              </details>
               <ul class="tags"><li>Pydantic AI</li><li>Azure Data Factory</li><li>ETL</li><li>pytest</li></ul>
             </div>
           </li>
@@ -164,6 +190,19 @@
               <p>Reproduced a knowledge-grounded concept-bottleneck method for medical imaging. Fixed a bug that could silently
                 corrupt ablations, made training ~6× faster, and replaced test-set model selection with a held-out split.</p>
               <p class="metric mono">+8.8 pts out-of-domain · domain gap 27.4 → 14.2 · accuracy was overstated by 1.8 pts</p>
+              <details class="case">
+                <summary class="mono">Case study</summary>
+                <div class="case-body">
+                  <h5>How it works</h5>
+                  <ol class="steps"><li>Medical concepts (e.g. "enlarged cardiac silhouette") come from PubMed literature, not from the training images</li><li>One <b>grounding function</b> per concept scores it on CLIP image features</li><li>A linear layer over concept scores, with an LLM-derived <b>prior</b> on which concepts point to which class, makes the prediction</li><li>Each model is evaluated in-domain and on a shifted dataset (new hospital or population)</li></ol>
+                  <h5>Key decisions</h5>
+                  <ul><li>Compared KnoBo against a linear probe and PCBM on the same features, so the gain is attributable to the knowledge bottleneck.</li><li>Prior ablation: with 186 concepts, adding the prior lifts out-of-domain accuracy from 60.0 to 65.1.</li><li>Added <code>--seeds</code> to average runs and report standard deviations, so small differences mean something.</li></ul>
+                  <h5>Hardest problem</h5>
+                  <p>Two silent problems: <code>argparse type=bool</code> turns the string "False" into True, so prior-off ablations could run with the prior on; and epochs were chosen on the in-domain <i>test</i> set. A held-out split from training data showed in-domain accuracy was 1.8 points lower than reported.</p>
+                  <h5>What I'd do next</h5>
+                  <p>Run the multi-seed protocol on every baseline, and extend the comparison to the skin-lesion benchmarks with the same unbiased selection.</p>
+                </div>
+              </details>
               <ul class="tags"><li>PyTorch</li><li>CLIP</li><li>Interpretability</li></ul>
             </div>
           </li>
@@ -174,6 +213,19 @@
               <p>Team project: a private tutor that answers only from course material, with citations, fully offline. I built the
                 RAG core: ingestion, retrieval with a relevance gate, prompt-injection defences and local-only security checks.</p>
               <p class="metric mono">Team of 7 · my part: the RAG core</p>
+              <details class="case">
+                <summary class="mono">Case study</summary>
+                <div class="case-body">
+                  <h5>How it works</h5>
+                  <ol class="steps"><li>PDFs pass a SHA-256 tamper check, then are chunked (1000 chars, 150 overlap)</li><li>nomic-embed-text embeds chunks into a local ChromaDB (cosine distance)</li><li>Each question retrieves the top 4 chunks; a relevance gate refuses <i>before</i> calling the LLM if nothing is close enough</li><li>llama3.2:3b on Ollama (127.0.0.1, temperature 0.1) answers only from the chunks, labelled as untrusted data</li><li>Model labels like [S1] are replaced with real citations from chunk metadata</li></ol>
+                  <h5>Key decisions</h5>
+                  <ul><li>Fully offline after setup: course material never leaves the machine.</li><li>Refusing before generation means the model can't guess on out-of-scope questions.</li><li>Security checks verify Ollama listens only on loopback, data folder permissions, and that no data is committed to git.</li></ul>
+                  <h5>Hardest problem</h5>
+                  <p>Prompt injection hidden inside documents: retrieved text is wrapped and labelled as data, the model is told never to follow instructions inside it, and output is filtered for system-prompt or secret leaks.</p>
+                  <h5>What I'd do next</h5>
+                  <p>Add an evaluation set to tune chunk size and the relevance threshold with measured retrieval precision, not intuition.</p>
+                </div>
+              </details>
               <ul class="tags"><li>RAG</li><li>Ollama</li><li>ChromaDB</li><li>Security</li></ul>
             </div>
           </li>
@@ -184,6 +236,19 @@
               <p>1D-CNN news classifier. 99.8% of real articles mentioned "Reuters", so I removed every source giveaway and
                 checked the score still held against TF-IDF baselines. Served with Streamlit.</p>
               <p class="metric mono">99.3% accuracy · F1 0.993 · 5,864 held-out articles</p>
+              <details class="case">
+                <summary class="mono">Case study</summary>
+                <div class="case-body">
+                  <h5>How it works</h5>
+                  <ol class="steps"><li>Strip source markers: Reuters datelines, "21st Century Wire", handles, URLs, image credits</li><li>TextVectorization (20k vocab, 400 tokens) saved <i>inside</i> the model</li><li>Embedding(100) → Conv1D(128, k=5) → global max pool → dropout → dense → sigmoid</li><li>Stratified 70/15/15 split after deduplication, with early stopping on validation loss</li></ol>
+                  <h5>Key decisions</h5>
+                  <ul><li>Baselines first: TF-IDF + logistic regression scored 99.0% on raw text and 98.3% with giveaways removed, which shows how easy the dataset is and how much the CNN adds.</li><li>The tokenizer lives in the model, so the app can't drift out of sync with it; the original version had saved the model without its tokenizer.</li><li>The same cleaning code runs at training and prediction time.</li></ul>
+                  <h5>Hardest problem</h5>
+                  <p>A suspicious 99%: 99.8% of real articles mention "Reuters", a near-perfect label proxy. After removing every source marker the CNN still scored 99.3%, so it's learning writing style and content, not the publisher.</p>
+                  <h5>What I'd do next</h5>
+                  <p>Test on news from other outlets and years, and fine-tune a transformer (e.g. DistilBERT) for cross-source robustness.</p>
+                </div>
+              </details>
               <ul class="tags"><li>TensorFlow</li><li>NLP</li><li>Streamlit</li></ul>
             </div>
           </li>
@@ -195,6 +260,19 @@
                 suggestions. Deduplicated 4,920 rows down to 304 unique cases before splitting, which turned a fake 100% into an
                 honest number.</p>
               <p class="metric mono">98.4% held-out accuracy · 41 diseases</p>
+              <details class="case">
+                <summary class="mono">Case study</summary>
+                <div class="case-body">
+                  <h5>How it works</h5>
+                  <ol class="steps"><li>Symptoms are cleaned (lowercase, stopwords, lemmatize) and vectorised with TF-IDF</li><li>A small CNN (1×1 convolutions → dense → softmax over 41 diseases) predicts with confidence</li><li>Diet plans and common medications are looked up for the prediction, with top-3 candidates shown</li><li>Users sign up and log in; prediction requires a session</li></ol>
+                  <h5>Key decisions</h5>
+                  <ul><li>Deduplicate <i>before</i> splitting: 4,920 rows were only 304 unique symptom sets, so random splits had leaked copies into the test set.</li><li>Train once in a separate script and load the saved model, cutting app startup from ~75 s to ~7 s.</li><li>Passwords hashed with scrypt, logins via POST, an old admin/admin backdoor removed, and a warning below 50% confidence.</li></ul>
+                  <h5>Hardest problem</h5>
+                  <p>Every model showed 100% accuracy, which was too good to be true. Counting unique rows exposed the duplication; the honest held-out score after dedup is 98.4%, with the one miss being hepatitis C vs D, which share almost identical symptoms.</p>
+                  <h5>What I'd do next</h5>
+                  <p>Grow the dataset beyond 304 unique cases, add calibrated probabilities, and compare against simpler baselines like logistic regression.</p>
+                </div>
+              </details>
               <ul class="tags"><li>Flask</li><li>TensorFlow</li><li>NLP</li></ul>
             </div>
           </li>
